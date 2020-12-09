@@ -1,4 +1,6 @@
 package study;
+//①FruitsConstants.javaをインポートしなさい。
+import constans.FruitsConstants;
 
 //②Fruits.javaをインポートしなさい。
 import fruits.Fruits;
