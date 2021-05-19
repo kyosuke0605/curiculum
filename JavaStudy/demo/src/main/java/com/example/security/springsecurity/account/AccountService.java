@@ -43,12 +43,13 @@ public class AccountService implements UserDetailsService {
 
 
     //adminを登録するメソッド
-    @Transactional
+    @Transactional//メソッドが呼ばれたタイミングにトランザクションが開始させれ、対象のメソッドが正常終了した場合はコミット、例外で終了した場合はバック
+    
     public void registerAdmin(String username, String password, String mailAddress) {
         //問３－３ 引数をもとにAccountクラスのインスタンスを生成する構文を記述（passwordはハッシュ化）
     	Account user = new Account(username,passwordEncoder.encode(password),mailAddress);
-        user.setAdmin(true);
-        //userをもとにadmin情報の登録か更新を行う
+        user.setAdmin(true);//アカウントの引数を送ってる
+        //userをもとにadmin情報の登録か更新を行う //通信中はpassが分からないようにしてる　ハッシュ化
         repository.save(user);
     }
 
@@ -57,7 +58,7 @@ public class AccountService implements UserDetailsService {
     public void registerManager(String username, String password, String mailAddress) {
         Account user = new Account(username, passwordEncoder.encode(password), mailAddress);
         user.setManager(true);
-        repository.save(user);
+        repository.save(user);//userを元にManager情報の登録か更新を行う
     }
 
     //一般ユーザを登録するメソッド

@@ -11,26 +11,28 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.security.springsecurity.account.AccountService;
 
-@EnableWebSecurity
+@EnableWebSecurity//セキュリティ機能を有効にする
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AccountService userService;
 
-	@Override
+	@Override// 
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-		.authorizeRequests()
-		.antMatchers("/login", "/login-error").permitAll()
-		.antMatchers("/**").hasRole("USER")
+		.authorizeRequests()   //アクセス権限の設定
+		.antMatchers("/login", "/login-error").permitAll()//アクセス制限の無いURL
+		.antMatchers("/**").hasRole("USER")//管理画面USER権限が無いとアクセス
 		.and()
-		.formLogin()
-		.loginPage("/login").failureUrl("/login-error");
+		.formLogin()//ログイン画面とログインに関わる処理.
+		.loginPage("/login").failureUrl("/login-error");//oginPageにはログイン画面のURLを指定failureUreにはログイン失敗のURl先を指定
+		
 	}
 
 
 	//変更点 ロード時に、「admin」ユーザを登録する。
-	@Override
+	@Override 
+	//ログインできるユーザ名とそのパスワードを登録
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth
 		.userDetailsService(userService)
